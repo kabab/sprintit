@@ -1,0 +1,80 @@
+.new-project-box .small-box-footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.new-project-box .add-project-icon {
+  color: #f4f4f4;
+  transition: all 0.1s;
+  text-align: center;
+  font-size: 50px;
+  padding-top: 30px;
+  cursor: pointer;
+}
+
+.new-project-box .add-project-icon:hover {
+  color: #e0e0e0;
+  font-size: 53px;
+}
+
+#postit .box {
+  height: 230px;
+  border: 2px #eee solid;
+}
+
+#postit .btn {
+  bottom: 5px;
+  right: 5px;
+  display: none;
+  position: absolute;
+}
+
+#postit .box {
+  position: relative;
+}
+
+#postit .box:hover > .btn {
+  display: block;
+}
+
+
+#issues .box {
+  height: 550px;
+}
+
+#chatwidget {
+  background: white;
+  height: 300px;
+}
+
+.direct-chat {
+  position: fixed;
+  width: 300px;
+  bottom: 0px;
+  right: 20px;
+  z-index: 1000;
+}
+
+#chatwidget .title{
+  font-size: 20px;
+  padding: 5px;
+  background: #ddd;
+}
+
+#chatwidget ul {
+  margin: 0px;
+  padding: 0px;
+}
+#chatwidget ul li {
+  cursor: pointer;
+  font-size: 20px;
+  list-style: none;
+  height: 45px;
+  margin-left: 1px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 5px;
+  border: 1px #ddd solid;
+  border-left: 5px #ccc solid;
+}
