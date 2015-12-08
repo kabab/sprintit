@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="appFront">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,6 +17,9 @@
     <!-- iCheck -->
     <link rel="stylesheet" href="plugins/iCheck/square/blue.css">
 
+    <script src="plugins/angular.min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/controllers.js"></script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -32,7 +35,7 @@
 
       <div class="register-box-body">
         <p class="login-box-msg">Register a new membership</p>
-        <form action="../../index.html" method="post">
+        <form action="../../index.html" method="post" ng-controller="RegisterCtrl">
           <div class="form-group has-feedback">
             <input type="text" class="form-control" placeholder="First name">
             <span class="glyphicon glyphicon-user form-control-feedback"></span>
@@ -69,6 +72,7 @@
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <!-- iCheck -->
     <script src="plugins/iCheck/icheck.min.js"></script>
+
     <script>
       $(function () {
         $('input').iCheck({

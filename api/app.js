@@ -15,7 +15,7 @@ app.listen(config.api_port);
 //Routes
 var routes = {};
 
-// routes.utilisateurs = require('./routes/utilisateurs');
+routes.utilisateurs = require('./routes/utilisateurs');
 routes.projets = require('./routes/projets');
 
 app.use( function(req, res, next) {
@@ -27,7 +27,7 @@ app.use( function(req, res, next) {
   next();
 });
 
-//app.use('/users', routes.utilisateurs);
+app.use('/utilisateurs', routes.utilisateurs);
 app.use('/projets', routes.projets);
 
 console.log('API start on %d', config.api_port);

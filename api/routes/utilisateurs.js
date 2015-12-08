@@ -3,6 +3,6 @@ var router = express.Router();
 var utilisateurCtrl = require('../controllers/utilisateur');
 
 /* GET users listing. */
-router.post('/', utilisateurCtrl.create);
+router.post('/', utilisateurCtrl.register);
 
 module.exports = router;
