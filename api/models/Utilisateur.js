@@ -8,6 +8,10 @@ var UtilisateurSchema   = new Schema({
     nom: String,
     prenom: String,
     password: String,
+    projets: [{
+      type: Schema.Types.ObjectId, // ADMIN, DEV
+      ref: 'Projet'
+    }],
     created_at: {type: Date, default: Date.now},
     activated: {type: Boolean, default: true}
 });

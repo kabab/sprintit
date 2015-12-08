@@ -48,8 +48,8 @@ appServices.factory('ProjectService', function ($http,$q,$timeout) {
         edit: function() {
             return $http.get(options.api_url + '/users/logout');
         },
-        find: function(u) {
-            return $http.post(options.api_url + '/utilisateurs/', u);
+        find: function() {
+            return $http.get(options.api_url + '/projets/');
         }
     }
 });

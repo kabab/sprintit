@@ -25,8 +25,7 @@ app.config(['$routeProvider','$locationProvider',
         controller: 'ProjectsCtrl'
       });
 }]);
-/*
+
 app.config(function ($httpProvider,$locationProvider) {
     $httpProvider.interceptors.push('TokenInterceptor');
 });
-*/

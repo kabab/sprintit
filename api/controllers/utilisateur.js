@@ -13,7 +13,6 @@ module.exports.register = function(req, res) {
   utilisateur.prenom = req.body.prenom;
   utilisateur.password = req.body.password;
 
-
   Utilisateur.findOne({'email': req.body.email}, function(err, u) {
     if (u) {
       ans.error = true;
@@ -39,6 +38,7 @@ module.exports.login = function(req, res) {
   Utilisateur.findOne({email: email}, function (err, user) {
     if (!user) {
       ans.error = true;
+      ans.data = []
       ans.data.push("Invalid email");
       return res.json(ans);
     }

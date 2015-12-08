@@ -23,6 +23,7 @@ appControllers.controller('LoginCtrl', ['$scope','$location','$window', 'UserSer
           console.log(data);
           AuthenticationService.isAuthenticated = true;
           $window.sessionStorage.token = data.data.token;
+          $window.location.href = options.site_url + '/dashboard/';
         });
       }
     }
