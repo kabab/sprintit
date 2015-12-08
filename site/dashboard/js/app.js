@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('appFront', [
+var app = angular.module('appDash', [
   'ngRoute',
   'appControllers',
   'appServices',
@@ -17,12 +17,12 @@ app.config(['$routeProvider','$locationProvider',
   function($routeProvider,$locationProvider) {
     $routeProvider.
       when('/', {
-        templateUrl: 'templates/login.html',
-        controller: 'LoginCtrl'
+        templateUrl: 'templates/projects.html',
+        controller: 'ProjectsCtrl'
       }).
-      when('/register', {
-        templateUrl: 'templates/register.html',
-        controller: 'RegisterCtrl'
+      when('/addproject', {
+        templateUrl: 'templates/project.html',
+        controller: 'ProjectsCtrl'
       });
 }]);
 /*

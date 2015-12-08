@@ -11,6 +11,7 @@
     "debug": "~2.1.1",
     "express": "~4.12.2",
     "express-jwt": "*",
+		"jsonwebtoken": "*",
 		"bcrypt": "*",
 		"mongoose": "*",
     "morgan": "~1.5.1",

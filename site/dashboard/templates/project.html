@@ -1,0 +1,48 @@
+
+  <section class="content">
+    <div class="row">
+      <div class="col-md-9">
+        <div class="nav-tabs-custom">
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="#settings" data-toggle="tab" aria-expanded="true">Settings</a></li>
+          </ul>
+          <div class="tab-content">
+            <div class="active tab-pane" id="settings">
+              <form class="form-horizontal">
+                <div class="form-group">
+                  <label for="titre" class="col-sm-2 control-label">Titre:</label>
+                  <div class="col-sm-10">
+                    <input type="text" ng-model="projet.titre" class="form-control" id="titre" placeholder="titre">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="dateDebut" class="col-sm-2 control-label">Date debut:</label>
+                  <div class="col-sm-10">
+                    <input type="date" class="form-control" ng-model="projet.date_debut" id="dateDebut" placeholder="date de debut">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="dateFin" class="col-sm-2 control-label">Date fin:</label>
+                  <div class="col-sm-10">
+                    <input type="date" class="form-control" id="dateFin" ng-model="projet.date_fin" placeholder="date de fin">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="description" class="col-sm-2 control-label">Description:</label>
+                  <div class="col-sm-10">
+                    <textarea type="text" class="form-control" id="description" ng-model="projet.description" placeholder="description"></textarea>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" ng-click="add()" class="btn btn-primary pull-right">Submit</button>
+                  </div>
+                </div>
+              </form>
+            </div><!-- /.tab-pane -->
+          </div><!-- /.tab-content -->
+        </div><!-- /.nav-tabs-custom -->
+      </div><!-- /.col -->
+    </div><!-- /.row -->
+  </section>

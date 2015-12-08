@@ -40,15 +40,15 @@ appServices.factory('TokenInterceptor', function ($q, $window, $location,Authent
     };
 });
 
-appServices.factory('UserService', function ($http,$q,$timeout) {
+appServices.factory('ProjectService', function ($http,$q,$timeout) {
     return {
-        login: function(u) {
-            return $http.post(options.api_url + '/utilisateurs/login', u);
+        add: function(p) {
+            return $http.post(options.api_url + '/projets/', p);
         },
-        logout: function() {
+        edit: function() {
             return $http.get(options.api_url + '/users/logout');
         },
-        register: function(u) {
+        find: function(u) {
             return $http.post(options.api_url + '/utilisateurs/', u);
         }
     }
