@@ -29,10 +29,11 @@ appServices.factory('TokenInterceptor', function ($q, $window, $location,Authent
 
         /* Revoke client authentication if 401 is received */
         responseError: function(rejection) {
-            if (rejection != null && rejection.status === 401 && ($window.sessionStorage.token || AuthenticationService.isAuthenticated)) {
-                delete $window.sessionStorage.token;
+            if (rejection != null && rejection.status === 401) {
+                if ($window.sessionStorage.token)
+                  delete $window.sessionStorage.token;
                 AuthenticationService.isAuthenticated = false;
-                $window.location.href = options.site_url + '/#/login';
+                $window.location.href = options.site_url + '/';
             }
 
             return $q.reject(rejection);

@@ -1,6 +1,6 @@
 
-appControllers.controller('ProjectsCtrl', ['$scope','$location', 'ProjectService',
-    function ($scope,$location, ProjetService) {
+appControllers.controller('ProjectsCtrl', ['$scope','$location', '$window', 'ProjectService',
+    function ($scope, $location, $window, ProjetService) {
       $scope.projets = {}
 
       ProjetService.find().success(function(data) {
@@ -17,3 +17,13 @@ appControllers.controller('ProjectsCtrl', ['$scope','$location', 'ProjectService
     }
   ]
 );
+
+appControllers.controller('MainCtrl', ['$scope','$location', '$window',
+  function($scope,$location, $window) {
+    $scope.logout = function() {
+      if ($window.sessionStorage.token)
+        delete $window.sessionStorage.token;
+      $window.location.href = options.site_url;
+    }
+  }
+]);

@@ -1,6 +1,5 @@
 var express = require('express');
 var app = express();
-var jwt = require('express-jwt');
 var bodyParser = require('body-parser'); //bodyparser + json + urlencoder
 var morgan  = require('morgan'); // logger
 var config = require('./config/config');
