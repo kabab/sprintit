@@ -16,6 +16,8 @@ var routes = {};
 
 routes.utilisateurs = require('./routes/utilisateurs');
 routes.projets = require('./routes/projets');
+routes.sprints = require('./routes/sprints');
+routes.taches = require('./routes/taches');
 
 app.use( function(req, res, next) {
   res.set('Access-Control-Allow-Origin', 'http://localhost');
@@ -28,5 +30,7 @@ app.use( function(req, res, next) {
 
 app.use('/utilisateurs', routes.utilisateurs);
 app.use('/projets', routes.projets);
+app.use('/sprints', routes.sprints);
+app.use('/taches', routes.taches);
 
 console.log('API start on %d', config.api_port);
