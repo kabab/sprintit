@@ -8,17 +8,19 @@ var config  = {
     domain: 'sprintit',
     url: 'http://localhost/sprintit/sprintit',
 		token_expiration: 60,
+    host: 'http://localhost',
   },
 
   test: {
     mongo_uri: 'mongodb://localhost/sprintit',
     domaine_name: 'http://localhost/sprintit',
-    api_port: '8080',
+    api_port: '3001',
     redis_port: '6379',
     secret: 'aMdoeb5ed87zorRdkD6gHz4ML81DcnrzeSD648ferFejmplx',
     domain: 'barhoch.bitnamiapp.com',
     url: 'http://barhoch.bitnamiapp.com/',
 		token_expiration: 60,
+    host: 'http://localhost',
   }
 };
 

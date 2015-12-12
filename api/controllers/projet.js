@@ -49,3 +49,7 @@ module.exports.find = function(req, res) {
     res.json(ans);
   });
 };
+
+module.exports.update = function(req, res) {
+
+}
