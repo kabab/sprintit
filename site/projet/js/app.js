@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('appDash', [
+var app = angular.module('appProjet', [
   'ngRoute',
   'appControllers',
   'appServices',
@@ -16,11 +16,11 @@ options.site_url = "http://localhost/sprintit/site";
 app.config(['$routeProvider','$locationProvider',
   function($routeProvider,$locationProvider) {
     $routeProvider.
-      when('/', {
+      when('/:id', {
         templateUrl: 'templates/projects.html',
         controller: 'ProjectsCtrl'
       }).
-      when('/addproject', {
+      when('/projet', {
         templateUrl: 'templates/project.html',
         controller: 'ProjectsCtrl'
       });

@@ -41,16 +41,13 @@ appServices.factory('TokenInterceptor', function ($q, $window, $location,Authent
     };
 });
 
-appServices.factory('ProjectService', function ($http,$q,$timeout) {
+appServices.factory('SprintService', function ($http,$q,$timeout) {
     return {
         add: function(p) {
-            return $http.post(options.api_url + '/projets/', p);
-        },
-        edit: function() {
-            return $http.get(options.api_url + '/users/logout');
-        },
+            return $http.post(options.api_url + '/sprint/', s);
+        }
         find: function() {
-            return $http.get(options.api_url + '/projets/');
+            return $http.get(options.api_url + '/sprint/');
         }
     }
 });

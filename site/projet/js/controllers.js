@@ -1,5 +1,5 @@
 
-appControllers.controller('ProjectsCtrl', ['$scope','$location', '$window', 'ProjectService',
+appControllers.controller('SprintService', ['$scope','$location', '$window', 'ProjectService',
     function ($scope, $location, $window, ProjetService) {
       $scope.projets = {}
 
