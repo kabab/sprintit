@@ -6,6 +6,7 @@ module.exports.create = function (req, res) {
   ans.error = false;
   ans.data = [];
 
+  console.log(req.body.date_debut);
   var tache =
   {
     date_debut : new Date(req.body.date_debut.split('T')[0]),

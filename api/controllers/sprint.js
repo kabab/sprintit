@@ -10,7 +10,7 @@ module.exports.create = function (req, res) {
 
   sprint.date_debut = new Date(req.body.date_debut.split('T')[0]);
   sprint.date_fin = new Date();
-  sprint.date_fin.setDate(sprint.date_fin.getDate() + parseInt(req.body.nbr_jour));
+  sprint.date_fin.setDate(sprint.date_debut.getDate() + parseInt(req.body.nbr_jour));
   sprint.description = req.body.description;
   sprint.projet = req.params.id;
   console.log(sprint);
