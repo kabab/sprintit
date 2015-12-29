@@ -48,6 +48,9 @@ appServices.factory('SprintService', function ($http,$q,$timeout) {
         },
         find: function(projet_id) {
             return $http.get(options.api_url + '/sprints/projets/'  + projet_id);
+        },
+        add_task: function(sprint_id, t) {
+            return $http.get(options.api_url + '/taches/sprints/' + sprint_id , t);
         }
     }
 });

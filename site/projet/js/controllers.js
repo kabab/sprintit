@@ -19,14 +19,26 @@ appControllers.controller('SprintCtrl', ['$scope','$location', '$window', 'Sprin
 
       $scope.select_sprint = function(i) {
         $scope.sprint = $scope.sprints[i];
+        console.log($scope.sprint.taches);
         $scope.sprints[$scope.selected_sprint].active = false;
         $scope.sprints[i].active = true;
         $scope.selected_sprint = i;
       };
 
+      $scope.add_task = function() {
+        var sprint_id = $scope.sprints[$scope.selected_sprint]._id;
+        SprintService.add_task(sprint_id).success(function(data) {
+          $scope.sprints[$scope.selected_sprint].taches.push(data.data);
+          $("#myModal2").modal('hide');
+        });
+      }
+
       $scope.add_sprint = function() {
-        SprintService.add($routeParams.id, $scope.nsprint).success(function(data) {
-          window.location.reload();
+        SprintService.add($routeParams.id, $scope.ntache).success(function(data) {
+          $scope.sprints.push(data.data);
+          var l = $scope.sprints.length;
+          $scope.select_sprint(l - 1);
+          $("#myModal").modal('hide')
         });
 
       }
