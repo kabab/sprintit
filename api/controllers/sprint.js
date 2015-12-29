@@ -38,7 +38,7 @@ module.exports.create = function (req, res) {
 
 module.exports.find = function(req, res) {
   var ans = {};
-  ans.error = false;s
+  ans.error = false;
 
   Projet.find({contributeurs: req.user.id, _id:req.params.id})
   .populate('sprints')
