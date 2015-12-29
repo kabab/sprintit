@@ -10,7 +10,7 @@ var SprintSchema = new Schema({
     date_debut: Date,
     dure: Number,
     titre: String,
-    etat: {type: String, default: 'ToDo'}
+    etat: {type: String, default: 'ToDo'},
     assignee: {type: Schema.Types.ObjectId, ref: 'Utilisateur'}
   }]
 });
