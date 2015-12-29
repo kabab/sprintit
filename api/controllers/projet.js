@@ -50,6 +50,22 @@ module.exports.find = function(req, res) {
   });
 };
 
+module.exports.findone = function(req, res) {
+  var ans = {};
+  ans.error = false;
+  var id = req.params.id;
+  Projet.findOne({_id:id, contributeurs: req.user.id})
+    .populate('contributeurs').exec( function(err, projets) {
+    if (projets) {
+      ans.data = projets;
+    } else {
+      ans.data = ["error"];
+      ans.error = true;
+    }
+    res.json(ans);
+  });
+}
+
 module.exports.update = function(req, res) {
 
 }

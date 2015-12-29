@@ -14,5 +14,6 @@ router.use(jwt({secret: config.secret}));
 /* GET users listing. */
 router.post('/', projetCtrl.create);
 router.get('/', projetCtrl.find);
+router.get('/:id', projetCtrl.findone);
 
 module.exports = router;

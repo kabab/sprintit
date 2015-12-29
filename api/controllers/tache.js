@@ -5,15 +5,14 @@ module.exports.create = function (req, res) {
   var ans = {};
   ans.error = false;
   ans.data = [];
-
   console.log(req.body.date_debut);
   var tache =
   {
     date_debut : new Date(req.body.date_debut.split('T')[0]),
     dure : req.body.dure,
-    titre : req.body.description
+    titre : req.body.titre,
+    description: req.body.description
   };
-
 
   Sprint.findById(req.params.id)
   .populate('projet')
@@ -22,7 +21,8 @@ module.exports.create = function (req, res) {
       if (sprint && sprint.projet.owner == req.user.id) {
         sprint.taches.push(tache);
         sprint.save();
-        ans.data = sprint;
+        tache.etat = 'ToDo';
+        ans.data = tache;
       } else {
         ans.data = ["error"];
         ans.error = true;
@@ -32,6 +32,7 @@ module.exports.create = function (req, res) {
 
 };
 
+/*
 module.exports.find = function(req, res) {
   var ans = {};
   ans.error = false;
@@ -49,3 +50,4 @@ module.exports.find = function(req, res) {
   });
 
 };
+*/
