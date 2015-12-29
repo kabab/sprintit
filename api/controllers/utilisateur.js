@@ -1,6 +1,7 @@
 var jwt = require("jsonwebtoken");
 var config = require("../config/config");
 var Utilisateur = require('../models/Utilisateur');
+
 module.exports.register = function(req, res) {
   var utilisateur = new Utilisateur();
 
@@ -20,6 +21,7 @@ module.exports.register = function(req, res) {
       return res.send(ans);
     }
     utilisateur.save(function(err, user) {
+      delete user.password;
       ans.data = user;
       return res.send(ans);
     });
@@ -33,7 +35,6 @@ module.exports.login = function(req, res) {
 
   var ans = {};
   ans.error = false;
-  ans.data = {};
 
   Utilisateur.findOne({email: email}, function (err, user) {
     if (!user) {
@@ -46,13 +47,14 @@ module.exports.login = function(req, res) {
     user.comparePassword(password, function(isMatch) {
       if (!isMatch) {
         ans.error = true;
+        ans.data = [];
         ans.data.push("Login failed");
         return res.json(ans);
       }
 
       var token = jwt.sign({id: user._id}, config.secret,
       { expiresInMinutes: config.token_expiration });
-
+      ans.data = {};
       ans.data.token = token;
 
       return res.json(ans);

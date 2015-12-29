@@ -9,11 +9,12 @@ module.exports.create = function (req, res) {
   ans.data = [];
 
   sprint.date_debut = new Date(req.body.date_debut.split('T')[0]);
-  sprint.date_fin = new Date(req.body.date_fin.split('T')[0]);
+  sprint.date_fin = new Date();
+  sprint.date_fin.setDate(sprint.date_fin.getDate() + parseInt(req.body.nbr_jour));
   sprint.description = req.body.description;
   sprint.projet = req.params.id;
+  console.log(sprint);
 
-  console.log(req.params.id);
   Projet.find({owner: req.user.id, _id:req.params.id}, function(err, projets) {
     if (projets && projets.length > 0) {
       sprint.save(function(err, sprint) {

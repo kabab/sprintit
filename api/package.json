@@ -15,6 +15,7 @@
 		"bcrypt": "*",
 		"mongoose": "*",
     "morgan": "~1.5.1",
+		"frisby": "*",
     "serve-favicon": "~2.2.0"
   }
 }
