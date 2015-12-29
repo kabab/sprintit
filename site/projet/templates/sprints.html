@@ -30,12 +30,7 @@
           <div class="box-header">
             <h3 class="box-title">Les taches</h3>
             <div class="box-tools">
-              <div class="input-group" style="width: 150px;">
-                <input type="text" name="table_search" class="form-control input-sm pull-right" placeholder="Search">
-                <div class="input-group-btn">
-                  <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
-                </div>
-              </div>
+                <button class="button pull-right"></div>
             </div>
           </div><!-- /.box-header -->
           <div class="box-body table-responsive no-padding">
@@ -52,9 +47,9 @@
                 <td>{{ tache.titre }}</td>
                 <td>{{ tache.date_debut }}</td>
                 <td>{{ tache.dure }}</td>
-                <td>{{  }}</td>
-                <td><span class="label label-success">Approved</span></td>
-                <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                <td>{{ tache.description }}</td>
+                <td><span class="label label-success">{{ tache.etat }}</span></td>
+                <td>{{ tache.assignee }}</td>
               </tr>
             </tbody></table>
           </div><!-- /.box-body -->
