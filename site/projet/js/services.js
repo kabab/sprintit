@@ -59,6 +59,12 @@ appServices.factory('ProjetService', function ($http,$q,$timeout) {
     return {
         findone: function(id) {
             return $http.get(options.api_url + '/projets/' + id);
-        }
+        },
+        add_ressource: function(id, email) {
+          return $http.post(options.api_url + '/projets/' + id + '/ressource', {email: email});
+        },
+        delete_ressource: function(id, u_id) {
+          return $http.delete(options.api_url + '/projets/' + id + '/ressource/' + u_id);
+        },
     }
 });

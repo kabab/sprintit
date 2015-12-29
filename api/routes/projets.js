@@ -15,5 +15,7 @@ router.use(jwt({secret: config.secret}));
 router.post('/', projetCtrl.create);
 router.get('/', projetCtrl.find);
 router.get('/:id', projetCtrl.findone);
+router.post('/:id/ressource', projetCtrl.add_ressource);
+router.delete('/:id/ressource/:id2', projetCtrl.delete_ressource);
 
 module.exports = router;

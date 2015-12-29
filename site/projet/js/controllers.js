@@ -1,3 +1,37 @@
+appControllers.controller('RessourceCtrl', ['$scope','$location', '$window', 'ProjetService', '$routeParams',
+  function($scope,$location, $window, ProjetService, $routeParams) {
+    $scope.email = ""
+    $scope.projet = {};
+    $scope.projet_id = $routeParams.id;
+
+    $scope.add_ressource = function() {
+      ProjetService.add_ressource($scope.projet_id, $scope.email)
+      .success(function(data) {
+        if (!data.error) {
+          $scope.projet.contributeurs.push(data.data);
+        } else {
+          console.log(data.data);
+        }
+      });
+    }
+
+    $scope.del_ressource = function(i) {
+      var u_id = $scope.projet.contributeurs[i]._id;
+      ProjetService.delete_ressource($scope.projet_id, u_id)
+      .success(function(data) {
+        if (!data.error) {
+          $scope.projet.contributeurs.splice(i, 1);
+        } else {
+          console.log(data.data);
+        }
+      });
+    }
+
+    ProjetService.findone($scope.projet_id).success(function(data) {
+      $scope.projet = data.data;
+    });
+  }
+]);
 
 appControllers.controller('SprintCtrl', ['$scope','$location', '$window', 'SprintService', '$routeParams', '$route', 'ProjetService',
     function ($scope, $location, $window, SprintService, $routeParams, $route, ProjetService) {

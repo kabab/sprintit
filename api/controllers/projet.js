@@ -69,3 +69,57 @@ module.exports.findone = function(req, res) {
 module.exports.update = function(req, res) {
 
 }
+
+module.exports.add_ressource = function(req, res) {
+  var ans = {};
+  ans.error = false;
+
+  var id = req.params.id;
+  var email = req.body.email;
+
+  Projet.findOne({_id:id, owner: req.user.id}, function(err, projet) {
+    if (projet) {
+      Utilisateur.findOne({email: email}, function(err, u) {
+        if (u) {
+          if (projet.contributeurs.indexOf(u._id) >= 0) {
+            ans.data = ["User already added"];
+            ans.error = true;
+          } else {
+            ans.data = u;
+            projet.contributeurs.push(u._id);
+            projet.save();
+          }
+        } else {
+          ans.data = ["User not found"];
+          ans.error = true;
+        }
+        res.json(ans);
+      })
+    } else {
+      ans.data = ["You can't add ressource"];
+      ans.error = true;
+      res.json(ans);
+    }
+  });
+}
+
+module.exports.delete_ressource = function(req, res) {
+  var ans = {};
+  ans.error = false;
+  var id = req.params.id;
+  var u_id= req.params.id2;
+
+  Projet.findOne({_id:id, owner: req.user.id}, function(err, projet) {
+    if (projet) {
+      projet.contributeurs.pull(u_id);
+      projet.save(function(err, projet) {
+        ans.data = projet;
+        res.json(ans);
+      });
+    } else {
+      ans.data = ["You can't delete ressource"];
+      ans.error = true;
+      res.json(ans);
+    }
+  });
+}

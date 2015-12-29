@@ -20,6 +20,10 @@ app.config(['$routeProvider','$locationProvider',
         templateUrl: 'templates/sprints.html',
         controller: 'SprintCtrl'
       }).
+      when('/:id/ressources', {
+        templateUrl: 'templates/ressources.html',
+        controller: 'RessourceCtrl'
+      }).
       when('/addproject', {
         templateUrl: 'templates/project.html',
         controller: 'ProjectsCtrl'
