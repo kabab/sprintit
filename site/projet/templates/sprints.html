@@ -25,6 +25,11 @@
 
         </div><!-- /.tab-pane -->
       </div><!-- /.tab-content -->
+
+      <div id="gantt">
+
+      </div>
+
       <div class="">
         <div class="box">
           <div class="box-header">
@@ -45,11 +50,14 @@
               </tr>
               <tr ng-repeat="tache in sprint.taches">
                 <td>{{ tache.titre }}</td>
-                <td>{{ tache.date_debut }}</td>
+                <td>{{ tache.date_debut | date:'dd - MM - yyyy'}}</td>
                 <td>{{ tache.dure }}</td>
                 <td>{{ tache.description }}</td>
                 <td><span class="label label-success">{{ tache.etat }}</span></td>
-                <td>{{ tache.assignee }}</td>
+                <td><select class="form-control">
+                  <option value="">------</option>
+                  <option ng-repeat="r in projet.contributeurs">{{ r.nom}} {{ r.prenom }}</option>
+                </select></td>
               </tr>
             </tbody></table>
           </div><!-- /.box-body -->
@@ -118,7 +126,7 @@
               </div>
               <div class="form-group">
                 <label for="exampleInputEmail1">Nombre de jours</label>
-                <input type="number" min="3" ng-model="ntache.nbr_jour" class="form-control" id="exampleInputEmail1">
+                <input type="number" min="3" ng-model="ntache.dure" class="form-control" id="exampleInputEmail1">
               </div>
               <div class="form-group">
                 <label>Description</label>

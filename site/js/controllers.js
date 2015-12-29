@@ -5,9 +5,7 @@ appControllers.controller('RegisterCtrl', ['$scope','$location', 'UserService',
       $scope.register = function() {
         UserService.register($scope.utilisateur).success(function(data) {
           if (!data.error) {
-            $location.path("register");
-          } else {
-
+            $location.path('/');
           }
         });
       }

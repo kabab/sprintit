@@ -8,6 +8,8 @@ var SprintSchema = new Schema({
   projet: {type: Schema.Types.ObjectId, ref: 'Projet'},
   taches: [{
     date_debut: Date,
+    date_debut_reel: Date,
+    date_fin_reel: Date,
     dure: Number,
     titre: String,
     etat: {type: String, default: 'ToDo'},

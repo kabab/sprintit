@@ -30,6 +30,7 @@
     <!-- bootstrap wysihtml5 - text editor -->
     <link rel="stylesheet" href="../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
     <link rel="stylesheet" href="../css/style.css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" media="screen" title="no title" charset="utf-8">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -196,7 +197,7 @@
       </aside>
 
       <!-- Content Wrapper. Contains page content -->
-      <div class="content-wrapper"  style="height: 800px" ng-view>
+      <div class="content-wrapper"  style="min-height: 800px" ng-view>
 
       </div><!-- /.content-wrapper -->
       <footer class="main-footer">
@@ -250,9 +251,10 @@
     <script src="../dist/js/pages/dashboard.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="../dist/js/demo.js"></script>
-
+    <script src="js/jquery.fn.gantt.js"></script>
     <script src="js/app.js"></script>
     <script src="js/services.js" charset="utf-8"></script>
     <script src="js/controllers.js"></script>
+
   </body>
 </html>

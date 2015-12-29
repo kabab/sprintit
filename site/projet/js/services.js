@@ -50,7 +50,15 @@ appServices.factory('SprintService', function ($http,$q,$timeout) {
             return $http.get(options.api_url + '/sprints/projets/'  + projet_id);
         },
         add_task: function(sprint_id, t) {
-            return $http.get(options.api_url + '/taches/sprints/' + sprint_id , t);
+            return $http.post(options.api_url + '/taches/sprints/' + sprint_id , t);
+        }
+    }
+});
+
+appServices.factory('ProjetService', function ($http,$q,$timeout) {
+    return {
+        findone: function(id) {
+            return $http.get(options.api_url + '/projets/' + id);
         }
     }
 });

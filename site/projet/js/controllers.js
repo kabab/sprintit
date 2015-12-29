@@ -1,40 +1,76 @@
 
-appControllers.controller('SprintCtrl', ['$scope','$location', '$window', 'SprintService', '$routeParams', '$route',
-    function ($scope, $location, $window, SprintService, $routeParams, $route) {
+appControllers.controller('SprintCtrl', ['$scope','$location', '$window', 'SprintService', '$routeParams', '$route', 'ProjetService',
+    function ($scope, $location, $window, SprintService, $routeParams, $route, ProjetService) {
       $scope.sprints = {};
       $scope.nsprint = {};
       $scope.sprint = {};
+      $scope.ntache = {};
+      $scope.projet = {};
 
       $scope.projet_id = $routeParams.id;
 
+      ProjetService.findone($scope.projet_id).success(function(data) {
+        console.log(data.data);
+        $scope.projet = data.data;
+      });
       $scope.selected_sprint = -1;
 
       SprintService.find($routeParams.id).success(function(data) {
         $scope.sprints = data.data;
         var l = $scope.sprints.length;
-        $scope.sprint = $scope.sprints[l - 1];
-        $scope.selected_sprint = l - 1;
-        $scope.sprints[l - 1].active = true;
+        $scope.select_sprint(l - 1);
+
       });
 
       $scope.select_sprint = function(i) {
         $scope.sprint = $scope.sprints[i];
         console.log($scope.sprint.taches);
-        $scope.sprints[$scope.selected_sprint].active = false;
+        if($scope.selected_sprint >= 0)
+          $scope.sprints[$scope.selected_sprint].active = false;
         $scope.sprints[i].active = true;
         $scope.selected_sprint = i;
+        var taches = $scope.sprint.taches;
+        for (var i = 0; i < taches.length; i++) {
+          taches[i].name = taches[i].titre;
+          taches[i].desc = taches[i].description;
+          var date_fin = new Date(taches[i].date_debut);
+          var date_debut = new Date(taches[i].date_debut);
+          var dure = parseInt(taches[i].dure);
+          console.log(dure);
+          date_fin.setDate(date_debut.getDate() + dure);
+          console.log(date_debut, date_fin);
+          taches[i].values = [{from:date_debut, to: date_fin}];
+        }
+        $("#gantt").gantt({
+          source: taches,
+          scale: "dayys",
+          minScale: "days",
+          maxScale: "months",
+          onItemClick: function(data) {
+            alert("Item clicked - show some details");
+          },
+          onAddClick: function(dt, rowId) {
+            alert("Empty space clicked - add an item!");
+          },
+          onRender: function() {
+            console.log("chart rendered");
+          }
+        });
+
+
       };
 
       $scope.add_task = function() {
+        console.log($scope.ntache);
         var sprint_id = $scope.sprints[$scope.selected_sprint]._id;
-        SprintService.add_task(sprint_id).success(function(data) {
+        SprintService.add_task(sprint_id, $scope.ntache).success(function(data) {
           $scope.sprints[$scope.selected_sprint].taches.push(data.data);
           $("#myModal2").modal('hide');
         });
       }
 
       $scope.add_sprint = function() {
-        SprintService.add($routeParams.id, $scope.ntache).success(function(data) {
+        SprintService.add($routeParams.id, $scope.nsprint).success(function(data) {
           $scope.sprints.push(data.data);
           var l = $scope.sprints.length;
           $scope.select_sprint(l - 1);
