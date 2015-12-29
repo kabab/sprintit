@@ -17,10 +17,10 @@ app.config(['$routeProvider','$locationProvider',
   function($routeProvider,$locationProvider) {
     $routeProvider.
       when('/:id', {
-        templateUrl: 'templates/projects.html',
-        controller: 'ProjectsCtrl'
+        templateUrl: 'templates/sprints.html',
+        controller: 'SprintCtrl'
       }).
-      when('/projet', {
+      when('/addproject', {
         templateUrl: 'templates/project.html',
         controller: 'ProjectsCtrl'
       });

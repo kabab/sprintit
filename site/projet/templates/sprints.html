@@ -1,0 +1,103 @@
+<section class="content-header">
+  <h1>
+    Sprints
+   <small><button class="btn" name="button" data-toggle="modal" data-target="#myModal">New sprint</button></small>
+  </h1>
+</section>
+
+<section class="content" id="sprints" >
+
+<div class="row">
+  <div class="col-md-12">
+    <!-- Custom Tabs -->
+    <div class="nav-tabs-custom">
+      <ul class="nav nav-tabs">
+        <li ng-class="{active: sprint.active}" ng-click="select_sprint($index)" ng-repeat="sprint in sprints"><a href="#/{{projet_id}}" >Sprint {{$index + 1}}</a></li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane active" >
+          <b>Description:</b>
+          <p>{{ sprint.description }}</p>
+          <b>Start :</b>
+          <p>{{ sprint.date_debut }}</p>
+          <b>End :</b>
+          <p>{{ sprint.date_fin }}</p>
+
+        </div><!-- /.tab-pane -->
+      </div><!-- /.tab-content -->
+      <div class="">
+        <div class="box">
+          <div class="box-header">
+            <h3 class="box-title">Les taches</h3>
+            <div class="box-tools">
+              <div class="input-group" style="width: 150px;">
+                <input type="text" name="table_search" class="form-control input-sm pull-right" placeholder="Search">
+                <div class="input-group-btn">
+                  <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
+                </div>
+              </div>
+            </div>
+          </div><!-- /.box-header -->
+          <div class="box-body table-responsive no-padding">
+            <table class="table table-hover">
+              <tbody><tr>
+                <th>Titles</th>
+                <th>Start</th>
+                <th>Duration</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Ressource</th>
+              </tr>
+              <tr ng-repeat="tache in sprint.taches">
+                <td>{{ tache.titre }}</td>
+                <td>{{ tache.date_debut }}</td>
+                <td>{{ tache.dure }}</td>
+                <td>{{  }}</td>
+                <td><span class="label label-success">Approved</span></td>
+                <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+              </tr>
+            </tbody></table>
+          </div><!-- /.box-body -->
+        </div>
+      </div>
+    </div><!-- nav-tabs-custom -->
+  </div><!-- /.col -->
+</div>
+
+<div class="example-modal">
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+          <h4 class="modal-title">New sprint</h4>
+        </div>
+        <div class="modal-body">
+            <!-- form start -->
+          <form role="form">
+            <div class="box-body">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Date Debut</label>
+                <input type="date" ng-model="nsprint.date_debut" class="form-control" id="exampleInputEmail1">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Nombre de jours</label>
+                <input type="number" min="3" ng-model="nsprint.nbr_jour" class="form-control" id="exampleInputEmail1">
+              </div>
+              <div class="form-group">
+                <label>Description</label>
+                <textarea class="form-control" ng-model="nsprint.description" rows="3" placeholder="Enter ..."></textarea>
+              </div>
+            </div><!-- /.box-body -->
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" ng-click="add_sprint()">Save changes</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+</div>
+
+</section>

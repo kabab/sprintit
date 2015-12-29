@@ -43,11 +43,11 @@ appServices.factory('TokenInterceptor', function ($q, $window, $location,Authent
 
 appServices.factory('SprintService', function ($http,$q,$timeout) {
     return {
-        add: function(p) {
-            return $http.post(options.api_url + '/sprint/', s);
-        }
-        find: function() {
-            return $http.get(options.api_url + '/sprint/');
+        add: function(projet_id, s) {
+            return $http.post(options.api_url + '/sprints/projets/' + projet_id, s);
+        },
+        find: function(projet_id) {
+            return $http.get(options.api_url + '/sprints/projets/'  + projet_id);
         }
     }
 });
