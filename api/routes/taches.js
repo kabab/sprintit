@@ -13,6 +13,7 @@ router.use(jwt({secret: config.secret}));
 
 /* GET users listing. */
 router.post('/sprints/:id/', tacheCtrl.create);
+router.post('/:id/assign', tacheCtrl.assign);
 // router.get('/sprints/:id/', tacheCtrl.find);
 
 module.exports = router;

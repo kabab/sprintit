@@ -26,7 +26,7 @@
         </div><!-- /.tab-pane -->
       </div><!-- /.tab-content -->
 
-      <div id="gantt">
+      <div class="gantt">
 
       </div>
 
@@ -35,7 +35,7 @@
           <div class="box-header">
             <h3 class="box-title">Tasks</h3>
             <div class="box-tools">
-                <small><button class="btn" name="button" data-toggle="modal" data-target="#myModal2">New task</button></small>
+                <small><button class="btn" name="button" data-toggle="modal" data-target="#myModal2" ng-disabled="!sprint.last">New task</button></small>
             </div>
           </div><!-- /.box-header -->
           <div class="box-body table-responsive no-padding">
@@ -54,9 +54,9 @@
                 <td>{{ tache.dure }}</td>
                 <td>{{ tache.description }}</td>
                 <td><span class="label label-success">{{ tache.etat }}</span></td>
-                <td><select class="form-control">
+                <td><select class="form-control" ng-change="assign_task(tache)" ng-model="tache.assignee" ng-disabled="tache.assignee || !sprint.last">
                   <option value="">------</option>
-                  <option ng-repeat="r in projet.contributeurs">{{ r.nom}} {{ r.prenom }}</option>
+                  <option ng-repeat="r in projet.contributeurs" value="{{r._id}}">{{ r.nom}} {{ r.prenom }}</option>
                 </select></td>
               </tr>
             </tbody></table>

@@ -1,7 +1,6 @@
 var Sprint = require('../models/Sprint');
 
 module.exports.create = function (req, res) {
-
   var ans = {};
   ans.error = false;
   ans.data = [];
@@ -32,22 +31,30 @@ module.exports.create = function (req, res) {
 
 };
 
-/*
-module.exports.find = function(req, res) {
+module.exports.assign = function(req, res) {
+  var user_id = req.body.user_id;
+  var tache_id = req.params.id;
+
   var ans = {};
   ans.error = false;
+  ans.data = [];
 
-  Projet.find({contributeurs: req.user.id, _id:req.params.id})
-  .populate('sprints')
-  .exec(function(err, projets) {
-    if (projets && projets.length == 1) {
-      ans.data = projets[0].sprints;
-    } else {
-      ans.data = ["error"];
-      ans.error = true;
-    }
-    res.json(ans);
+  Sprint.find({'taches._id': tache_id})
+  .populate('projet')
+  .exec(function(err, sprints) {
+      sprint = !err && sprints.length > 0 ? sprints[0]: null;
+      if (sprint && sprint.projet.owner == req.user.id &&
+        sprint.projet.contributeurs.indexOf(user_id) >= 0) {
+        ans.data = sprint;
+        if (!sprint.taches.id(tache_id).assignee) {
+          sprint.taches.id(tache_id).assignee = user_id;
+          sprint.save();
+          console.log('changed');
+        }
+      } else {
+        ans.data = ["error"];
+        ans.error = true;
+      }
+      res.json(ans);
   });
-
-};
-*/
+}

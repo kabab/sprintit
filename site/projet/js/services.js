@@ -51,6 +51,9 @@ appServices.factory('SprintService', function ($http,$q,$timeout) {
         },
         add_task: function(sprint_id, t) {
             return $http.post(options.api_url + '/taches/sprints/' + sprint_id , t);
+        },
+        assign_task: function (task_id, user_id) {
+          return $http.post(options.api_url + '/taches/' + task_id + '/assign', {user_id: user_id} );
         }
     }
 });
