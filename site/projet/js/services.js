@@ -71,3 +71,12 @@ appServices.factory('ProjetService', function ($http,$q,$timeout) {
         },
     }
 });
+
+appServices.factory('MenuService', function ($http,$q,$timeout) {
+    var selected = 'dashboard';
+    return {
+      setElement : function(a) { selected = a;},
+      getElement : function() { return selected; },
+      isSelected : function(a) {return a === selected;}
+    }
+});

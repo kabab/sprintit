@@ -4,6 +4,7 @@ var app = angular.module('appFront', [
   'ngRoute',
   'appControllers',
   'appServices',
+  'cgNotify'
 ]);
 
 var appControllers = angular.module('appControllers', []);

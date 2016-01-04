@@ -168,23 +168,23 @@ appControllers.controller('SprintCtrl', ['$scope','$location', '$window', 'Sprin
   ]
 );
 
-appControllers.controller('MainCtrl', ['$scope','$location', '$window', '$routeParams',
-  function($scope,$location, $window, $routeParams) {
+appControllers.controller('MainCtrl', ['$scope','$location', '$window', '$routeParams', 'MenuService', 'MenuService',
+  function($scope,$location, $window, $routeParams, MenuService) {
     $scope.logout = function() {
       if ($window.sessionStorage.token)
         delete $window.sessionStorage.token;
       $window.location.href = options.site_url;
     };
-    var loc_path = $location.path();
-    console.log($routeParams.id);
 
-    $scope.getClass = function (path) {
-      if ($location.path().substr(0, path.length) === path) {
-        return 'active';
-      } else {
-        return '';
-      }
-    };
+    $scope.get_id = function() {
+      var reg = /[a-z0-9]{10,}/;
+      var a = $location.path();
+      return a.match(reg).length > 0 ? a.match(reg)[0]:"..";
+    }
+
+    $scope.setElement = MenuService.setElement;
+    $scope.getElement = MenuService.getElement;
+    $scope.isSelected = MenuService.isSelected;
 
   }
 ]);

@@ -43,7 +43,7 @@
     <script src="../plugins/angular.min.js"></script>
     <script src="../plugins/angular-route.min.js"></script>
   </head>
-  <body class="hold-transition skin-blue sidebar-mini" ng-controller="MainCtrl)">
+  <body class="hold-transition skin-blue sidebar-mini" ng-controller="MainCtrl">
     <div class="wrapper">
 
       <header class="main-header">
@@ -127,7 +127,7 @@
               <!-- User Account Menu -->
               <li class="dropdown user user-menu">
                 <!-- Menu Toggle Button -->
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown">
                   <!-- hidden-xs hides the username on small devices so only the image appears. -->
                   <span class="hidden-xs">Amine KABAB</span>
                 </a>
@@ -144,7 +144,7 @@
                       <a href="#" class="btn btn-default btn-flat">Profile</a>
                     </div>
                     <div class="pull-right">
-                      <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                      <a ng-click="logout()" class="btn btn-default btn-flat">Logout</a>
                     </div>
                   </li>
                 </ul>
@@ -159,40 +159,40 @@
         <section class="sidebar">
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
-            <li>
-              <a href="pages/widgets.html">
+            <li ng-click="setElement('post-it')" ng-class="{active: isSelected('post-it')}">
+              <a href="#/{{get_id()}}/post-it">
                 <i class="fa fa-th"></i> <span>Post-it board</span>
               </a>
             </li>
-            <li>
-              <a href="pages/widgets.html">
+            <li ng-click="setElement('')" ng-class="{active: isSelected('')}">
+              <a href="#/{{get_id()}}/">
                 <i class="fa fa-dashboard"></i> <span>Dashboard</span>
               </a>
             </li>
 
-            <li ng-class="getClass('/:id/timeline')">
-              <a href="pages/widgets.html">
+            <li ng-click="setElement('timeline')" ng-class="{active: isSelected('timeline')}">
+              <a href="#/{{get_id()}}/timeline">
                 <i class="fa fa-line-chart"></i> <span>Timeline</span>
               </a>
             </li>
-            <li>
-              <a href="pages/widgets.html">
+            <li ng-click="setElement('gantt')" ng-class="{active: isSelected('gantt')}">
+              <a href="#/{{get_id()}}/gantt">
                 <i class="fa fa-calendar"></i> <span>Gantt</span>
               </a>
             </li>
 
-            <li>
-              <a href="pages/widgets.html">
+            <li ng-click="setElement('issues')" ng-class="{active: isSelected('issues')}">
+              <a href="#/{{get_id()}}/issues">
                 <i class="fa fa-bug"></i> <span>Issues</span>
               </a>
             </li>
-            <li>
-              <a href="">
+            <li ng-click="setElement('ressources')" ng-class="{active: isSelected('ressources')}">
+              <a href="#/{{get_id()}}/ressources">
                 <i class="fa fa-desktop"></i> <span>Ressources</span>
               </a>
             </li>
-            <li>
-              <a href="pages/widgets.html">
+            <li ng-click="setElement('project')" ng-class="{active: isSelected('project')}">
+              <a href="#/{{get_id()}}/project">
                 <i class="fa fa-desktop"></i> <span>Project</span>
               </a>
             </li>
