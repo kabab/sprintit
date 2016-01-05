@@ -8,8 +8,10 @@ module.exports.create = function (req, res) {
   ans.error = false;
   ans.data = [];
 
-  sprint.date_debut = new Date(req.body.date_debut.split('T')[0]);
-  sprint.date_fin = new Date();
+  console.log(req.body.date_debut);
+
+  sprint.date_debut = new Date(req.body.date_debut);
+  sprint.date_fin = new Date(req.body.date_debut);
   sprint.date_fin.setDate(sprint.date_debut.getDate() + parseInt(req.body.nbr_jour));
   sprint.description = req.body.description;
   sprint.projet = req.params.id;
@@ -23,13 +25,13 @@ module.exports.create = function (req, res) {
           projets[0].sprints.push(sprint._id);
           projets[0].save();
         } else {
-          ans.data = ["error1"];
+          ans.data = ["Server error"];
           ans.error = true;
         }
         return res.json(ans);
       });
     } else {
-      ans.data = ["error2"];
+      ans.data = ["Invalide action"];
       ans.error = true;
       res.json(ans);
     }
