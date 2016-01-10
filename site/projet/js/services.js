@@ -54,6 +54,12 @@ appServices.factory('SprintService', function ($http,$q,$timeout) {
         },
         assign_task: function (task_id, user_id) {
           return $http.post(options.api_url + '/taches/' + task_id + '/assign', {user_id: user_id} );
+        },
+        user_tasks: function(projet_id) {
+          return $http.get(options.api_url + '/taches/projets/' + projet_id);
+        },
+        task_state: function (task_id, state) {
+          return $http.post(options.api_url + '/taches/' + task_id, {state: state});
         }
     }
 });

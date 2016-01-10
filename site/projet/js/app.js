@@ -4,7 +4,8 @@ var app = angular.module('appProjet', [
   'ngRoute',
   'appControllers',
   'appServices',
-  'cgNotify'
+  'cgNotify',
+  'ui.sortable'
 ]);
 
 var appControllers = angular.module('appControllers', []);
@@ -17,6 +18,10 @@ options.site_url = "http://localhost/sprintit/site";
 app.config(['$routeProvider','$locationProvider',
   function($routeProvider,$locationProvider) {
     $routeProvider.
+      when('/addproject', {
+        templateUrl: 'templates/project.html',
+        controller: 'ProjectsCtrl'
+      }).
       when('/:id', {
         templateUrl: 'templates/sprints.html',
         controller: 'SprintCtrl'
@@ -25,9 +30,9 @@ app.config(['$routeProvider','$locationProvider',
         templateUrl: 'templates/ressources.html',
         controller: 'RessourceCtrl'
       }).
-      when('/addproject', {
-        templateUrl: 'templates/project.html',
-        controller: 'ProjectsCtrl'
+      when('/:id/todo', {
+        templateUrl: 'templates/todo.html',
+        controller: 'TodoCtrl'
       });
 }]);
 

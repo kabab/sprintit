@@ -136,31 +136,41 @@ appControllers.controller('SprintCtrl', ['$scope','$location', '$window', 'Sprin
 
       $scope.add_sprint = function() {
         SprintService.add($routeParams.id, $scope.nsprint).success(function(data) {
-          $scope.sprints.push(data.data);
-          var l = $scope.sprints.length;
-          $scope.select_sprint(l - 1);
-          $("#myModal").modal('hide')
-        }).error(function(data) {
-          angular.forEach(data.data, function(error) {
-            notify({
-              message: error,
-              classes: 'alert-danger',
-              duration: 2000,
+          if (!data.error) {
+            $scope.sprints.push(data.data);
+            var l = $scope.sprints.length;
+            $scope.select_sprint(l - 1);
+            $("#myModal").modal('hide')
+          } else {
+            angular.forEach(data.data, function(error) {
+              notify({
+                message: error,
+                classes: 'alert-danger',
+                duration: 2000,
+              });
             });
+          }
+        }).error(function(data) {
+          notify({
+            message: 'Server error',
+            classes: 'alert-danger',
+            duration: 2000,
           });
         });
 
       }
 
       $scope.assign_task = function (t) {
-        SprintService.assign_task(t._id, t.assignee).error(function(data) {
-          angular.forEach(data.data, function(error) {
-            notify({
-              message: error,
-              classes: 'alert-danger',
-              duration: 2000,
+        SprintService.assign_task(t._id, t.assignee).success(function(data) {
+          if (data.error) {
+            angular.forEach(data.data, function(error) {
+              notify({
+                message: error,
+                classes: 'alert-danger',
+                duration: 2000,
+              });
             });
-          });
+          }
         });
       }
 
@@ -186,5 +196,50 @@ appControllers.controller('MainCtrl', ['$scope','$location', '$window', '$routeP
     $scope.getElement = MenuService.getElement;
     $scope.isSelected = MenuService.isSelected;
 
+  }
+]);
+
+appControllers.controller('TodoCtrl', ['$scope','$location', '$window', '$routeParams', 'SprintService', 'notify',
+  function($scope,$location, $window, $routeParams, SprintService, notify) {
+    // $scope.list1 = $scope.rawScreens[0];
+    // $scope.list2 = $scope.rawScreens[1];
+
+    $scope.tasks = [];
+
+    $scope.projet_id = $routeParams.id;
+    SprintService.user_tasks($routeParams.id).success(function(data) {
+      console.log(data);
+      if (data.error) {
+        angular.forEach(data.data, function(error) {
+          notify({
+            message: error,
+            classes: 'alert-danger',
+            duration: 2000,
+          });
+        });
+      } else {
+        $scope.tasks = data.data;
+      }
+    });
+
+
+    $scope.sortableOptions = {
+     placeholder: "app",
+     connectWith: ".todo-list",
+     update: function(event, ui) {
+       var order = {todo: 0, doing: 1, done: 2};
+       if (!ui.sender) {
+         var target_id = ui.item[0].parentElement.id;
+         var source_id = event.target.id;
+         var task_id = ui.item[0].getAttribute('data-id');
+
+         if (order[source_id] > order[target_id] ) {
+           return false;
+         } else {
+           SprintService.task_state(task_id, target_id);
+         }
+       }
+     }
+    };
   }
 ]);

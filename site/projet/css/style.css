@@ -431,3 +431,9 @@
 .gantt-row:after {
     clear: both;
 }
+
+/*##################################################*/
+
+.ui-sortable ul {
+  min-height: 20px;
+}

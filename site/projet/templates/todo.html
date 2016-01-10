@@ -1,0 +1,73 @@
+<section class="content-header">
+  <h1>
+    Tasks
+  </h1>
+</section>
+
+<section class="content" id="sprints" >
+  <div class="col-lg-12 connectedSortable ui-sortable">
+    <div class="col-lg-4">
+      <div class="box box-primary">
+        <div class="box-header ui-sortable-handle" style="cursor: move;">
+          <i class="ion ion-clipboard"></i>
+          <h3 class="box-title">To Do</h3>
+        </div><!-- /.box-header -->
+        <div class="box-body">
+          <ul class="todo-list ui-sortable" id="todo" ui-sortable="sortableOptions">
+            <li ng-repeat="task in tasks | filter:{etat: 'todo'}" data-id="{{task._id}}">
+              <span class="handle ui-sortable-handle">
+                <i class="fa fa-ellipsis-v"></i>
+                <i class="fa fa-ellipsis-v"></i>
+              </span>
+              <span class="text">{{ task.titre }}</span>
+              <small class="label label-warning"><i class="fa fa-clock-o"></i> 1 day</small>
+            </li>
+          </ul>
+        </div><!-- /.box-body -->
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="box box-primary">
+        <div class="box-header ui-sortable-handle" style="cursor: move;">
+          <i class="ion ion-clipboard"></i>
+          <h3 class="box-title">Doing</h3>
+        </div><!-- /.box-header -->
+        <div class="box-body">
+          <ul class="todo-list ui-sortable" id="doing" ui-sortable="sortableOptions">
+            <li ng-repeat="task in tasks | filter:{etat: 'doing'}" data-id="{{task._id}}">
+              <span class="handle ui-sortable-handle">
+                <i class="fa fa-ellipsis-v"></i>
+                <i class="fa fa-ellipsis-v"></i>
+              </span>
+              <span class="text">{{ task.titre }}</span>
+              <small class="label label-warning"><i class="fa fa-clock-o"></i> {{i}} day</small>
+            </li>
+          </ul>
+        </div><!-- /.box-body -->
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="box box-primary">
+        <div class="box-header ui-sortable-handle" style="cursor: move;">
+          <i class="ion ion-clipboard"></i>
+          <h3 class="box-title">Done</h3>
+        </div><!-- /.box-header -->
+        <div class="box-body">
+          <ul class="todo-list ui-sortable" id="done" ui-sortable="sortableOptions">
+            <li ng-repeat="task in tasks | filter:{etat: 'done'}" data-id="{{task._id}}">
+              <span class="handle ui-sortable-handle">
+                <i class="fa fa-ellipsis-v"></i>
+                <i class="fa fa-ellipsis-v"></i>
+              </span>
+              <span class="text">{{ task.titre }}</span>
+              <small class="label label-warning"><i class="fa fa-clock-o"></i> {{i}} day</small>
+            </li>
+          </ul>
+        </div><!-- /.box-body -->
+      </div>
+    </div>
+
+  </div>
+</section>
