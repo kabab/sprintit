@@ -1,6 +1,6 @@
 appControllers.controller('RessourceCtrl', ['$scope','$location', '$window', 'ProjetService', '$routeParams', 'notify',
   function($scope,$location, $window, ProjetService, $routeParams, notify) {
-    $scope.email = ""
+    $scope.email = "";
     $scope.projet = {};
     $scope.projet_id = $routeParams.id;
 
@@ -163,6 +163,71 @@ appControllers.controller('SprintCtrl', ['$scope','$location', '$window', 'Sprin
       $scope.assign_task = function (t) {
         SprintService.assign_task(t._id, t.assignee).success(function(data) {
           if (data.error) {
+            angular.forEach(data.data, function(error) {
+              notify({
+                message: error,
+                classes: 'alert-danger',
+                duration: 2000,
+              });
+            });
+          }
+        });
+      }
+
+    }
+  ]
+);
+
+appControllers.controller('PostItCtrl', ['$scope','$location', '$window', 'PostItService', '$routeParams', '$route', 'ProjetService',
+    function ($scope, $location, $window, PostItService, $routeParams, $route, ProjetService) {
+      $scope.postits = {};
+      $scope.postit = {};
+
+      $scope.projet_id = $routeParams.id;
+      $scope.selected_postit = -1;
+
+      ProjetService.findone($scope.projet_id).success(function(data) {
+        $scope.projet = data.data;
+      });
+
+      PostItService.find($routeParams.id).success(function(data) {
+        $scope.postits = data.data;
+        var l = $scope.postits.length;
+        $scope.select_postit(l - 1);
+      });
+
+      $scope.add_postit = function() {
+        PostItService.add($routeParams.id, $scope.postit).success(function(data) {
+          if (!data.error) {
+            $scope.postits.push(data.data);
+            var l = $scope.postits.length;
+            $scope.select_postit(l - 1);
+            $("#myModalPost").modal('hide');
+          } else {
+            angular.forEach(data.data, function(error) {
+              notify({
+                message: error,
+                classes: 'alert-danger',
+                duration: 2000,
+              });
+            });
+          }
+        }).error(function(data) {
+          notify({
+            message: 'Server error',
+            classes: 'alert-danger',
+            duration: 2000,
+          });
+        });
+      }
+
+      $scope.del_postit = function(i) {
+        var p_id = $scope.postits[i]._id;
+        PostItService.delete(p_id)
+        .success(function(data) {
+          if (!data.error) {
+            $scope.postits.splice(i, 1);
+          } else {
             angular.forEach(data.data, function(error) {
               notify({
                 message: error,

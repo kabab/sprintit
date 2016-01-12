@@ -30,6 +30,10 @@ app.config(['$routeProvider','$locationProvider',
         templateUrl: 'templates/ressources.html',
         controller: 'RessourceCtrl'
       }).
+      when('/:id/postits', {
+        templateUrl: 'templates/postits.html',
+        controller: 'PostItCtrl'
+      }).
       when('/:id/todo', {
         templateUrl: 'templates/todo.html',
         controller: 'TodoCtrl'

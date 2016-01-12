@@ -64,6 +64,20 @@ appServices.factory('SprintService', function ($http,$q,$timeout) {
     }
 });
 
+appServices.factory('PostItService', function ($http,$q,$timeout) {
+    return {
+        add: function(projet_id, p) {
+            return $http.post(options.api_url + '/postits/projets/' + projet_id, p);
+        },
+        find: function(projet_id) {
+            return $http.get(options.api_url + '/postits/projets/'  + projet_id);
+        },
+        delete: function(p_id) {
+          return $http.delete(options.api_url + '/postits/'+ p_id);
+        }
+    }
+});
+
 appServices.factory('ProjetService', function ($http,$q,$timeout) {
     return {
         findone: function(id) {
@@ -74,7 +88,7 @@ appServices.factory('ProjetService', function ($http,$q,$timeout) {
         },
         delete_ressource: function(id, u_id) {
           return $http.delete(options.api_url + '/projets/' + id + '/ressource/' + u_id);
-        },
+        }
     }
 });
 

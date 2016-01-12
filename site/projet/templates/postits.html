@@ -1,0 +1,52 @@
+        <section class="content-header">
+          <h1>
+            Post-it Board
+           <small><button class="btn" name="button" data-toggle="modal" data-target="#myModalPost">New post-it</button></small>
+          </h1>
+        </section>
+
+        <!-- Main content -->
+        <section class="content" id="postit">
+          <div class="row">
+            <div class="col-md-3" ng-repeat="p in postits">
+              <div class="box" >
+                <div class="box-header"><small>Par: {{ p.owner.nom }} {{ p.owner.prenom }}</small></div>
+                <button href="#" class="btn btn-danger pull-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete" ng-click="del_postit($index)">
+                  <i class="fa fa-close"></i>
+                </button>
+                <div class="box-body">
+                  {{ p.description }}.
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModalPost" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">New Post-it</h4>
+              </div>
+              <form class="form-horizontal">
+                <div class="modal-body">
+                    <div class="box-body">
+                      <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-2 control-label">Content</label>
+                        <div class="col-sm-10">
+                          <textarea class="form-control" rows="3" ng-model="postit.description" placeholder="Description"></textarea>
+                        </div>
+                      </div>
+                    </div><!-- /.box-body -->
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary"  ng-click="add_postit()">Add</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>

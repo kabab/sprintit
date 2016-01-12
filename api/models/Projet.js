@@ -10,7 +10,8 @@ var ProjetSchema = new Schema({
   description: String,
   owner: {type: Schema.Types.ObjectId, ref: 'Utilisateur'},
   contributeurs: [{type: Schema.Types.ObjectId, ref: 'Utilisateur'}],
-  sprints: [{type: Schema.Types.ObjectId, ref: 'Sprint'}]
+  sprints: [{type: Schema.Types.ObjectId, ref: 'Sprint'}],
+  postits: [{type: Schema.Types.ObjectId, ref: 'PostIt'}]
 });
 
 module.exports = mongoose.model('Projet', ProjetSchema);
