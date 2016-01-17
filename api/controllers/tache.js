@@ -70,7 +70,12 @@ module.exports.user_tasks = function(req, res) {
     function(err, sprints) {
       if (sprints.length > 0) {
         sprint = sprints[sprints.length - 1];
-        ans.data = sprint.taches;
+        ans.data = []
+        for (i = 0; i < sprint.taches.length; i++) {
+          if (sprint.taches[i].assignee == req.user.id) {
+            ans.data.push(sprint.taches[i]);
+          }
+        }
       } else {
         ans.error = true;
         ans.data = ['No tasks in database'];

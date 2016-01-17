@@ -12,7 +12,7 @@ var SprintSchema = new Schema({
     date_fin_reel: Date,
     dure: Number,
     titre: String,
-    etat: {type: String, default: 'ToDo'},
+    etat: {type: String, default: 'todo'},
     description: String,
     assignee: {type: Schema.Types.ObjectId, ref: 'Utilisateur'}
   }]

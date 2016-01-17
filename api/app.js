@@ -4,20 +4,24 @@ var bodyParser = require('body-parser'); //bodyparser + json + urlencoder
 var morgan  = require('morgan'); // logger
 var config = require('./config/config');
 require('./config/mongo');
+var server = require('http').Server(app);
 
+require('./controllers/message').io.attach(server);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(morgan('dev'));
 
-app.listen(config.api_port);
+server.listen(config.api_port);
 
 //Routes
 var routes = {};
+
 
 routes.utilisateurs = require('./routes/utilisateurs');
 routes.projets = require('./routes/projets');
 routes.sprints = require('./routes/sprints');
 routes.taches = require('./routes/taches');
+routes.messages = require('./routes/messages');
 
 app.use( function(req, res, next) {
   res.set('Access-Control-Allow-Origin', 'http://localhost');
@@ -32,5 +36,7 @@ app.use('/utilisateurs', routes.utilisateurs);
 app.use('/projets', routes.projets);
 app.use('/sprints', routes.sprints);
 app.use('/taches', routes.taches);
+app.use('/messages', routes.messages);
+
 
 console.log('API start on %d', config.api_port);
