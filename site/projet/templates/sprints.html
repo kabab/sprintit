@@ -1,7 +1,7 @@
 <section class="content-header">
   <h1>
     Sprints
-   <small><button class="btn" name="button" data-toggle="modal" data-target="#myModal">New sprint</button></small>
+   <small><button ng-show="user_id == owner" class="btn" name="button" data-toggle="modal" data-target="#myModal">New sprint</button></small>
   </h1>
 </section>
 
@@ -35,7 +35,7 @@
           <div class="box-header">
             <h3 class="box-title">Tasks</h3>
             <div class="box-tools">
-                <small><button class="btn" name="button" data-toggle="modal" data-target="#myModal2" ng-disabled="!sprint.last">New task</button></small>
+                <small><button ng-show="user_id == owner" class="btn" name="button" data-toggle="modal" data-target="#myModal2" ng-disabled="!sprint.last">New task</button></small>
             </div>
           </div><!-- /.box-header -->
           <div class="box-body table-responsive no-padding">

@@ -12,7 +12,7 @@
   <div class="box">
     <div class="box-header">
       <h3 class="box-title">Contributeurs</h3>
-      <div class="box-tools">
+      <div class="box-tools" ng-show="owner == user_id">
         <div class="input-group" style="width: 150px;">
           <input type="text" class="form-control input-sm pull-right" ng-model="email" placeholder="Email">
           <div class="input-group-btn">
@@ -34,7 +34,7 @@
           <td>{{ u.nom }} {{ u.prenom }}</td>
           <td>{{ u.email }}</td>
           <td>
-            <button class="btn btn-sm btn-danger" ng-click="del_ressource($index)"><i class="fa fa-remove"></i></button>
+            <button class="btn btn-sm btn-danger" ng-click="del_ressource($index)" ng-show="owner == user_id"><i class="fa fa-remove"></i></button>
           </td>
         </tr>
       </tbody></table>

@@ -86,3 +86,14 @@ appServices.factory('MenuService', function ($http,$q,$timeout) {
       isSelected : function(a) {return a === selected;}
     }
 });
+
+appServices.factory('ChatService', function ($http,$q,$timeout) {
+    return {
+      send : function(message, project_id) {
+        return $http.post(options.api_url + '/messages/' + project_id, message);
+      },
+      fetch : function (user_id, project_id) {
+        return $http.get (options.api_url + '/messages/' + project_id + '/' + user_id);
+      }
+    }
+});

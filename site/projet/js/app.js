@@ -33,6 +33,10 @@ app.config(['$routeProvider','$locationProvider',
       when('/:id/todo', {
         templateUrl: 'templates/todo.html',
         controller: 'TodoCtrl'
+      }).
+      when('/:id/chat', {
+        templateUrl: 'templates/chat.html',
+        controller: 'ChatCtrl'
       });
 }]);
 

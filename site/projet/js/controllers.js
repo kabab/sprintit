@@ -40,7 +40,10 @@ appControllers.controller('RessourceCtrl', ['$scope','$location', '$window', 'Pr
     }
 
     ProjetService.findone($scope.projet_id).success(function(data) {
+      var id = $window.sessionStorage.id;
       $scope.projet = data.data;
+      $scope.owner = $scope.projet.owner._id;
+      $scope.user_id = $window.sessionStorage.id;
     });
   }
 ]);
@@ -58,6 +61,8 @@ appControllers.controller('SprintCtrl', ['$scope','$location', '$window', 'Sprin
 
       ProjetService.findone($scope.projet_id).success(function(data) {
         $scope.projet = data.data;
+        $scope.owner = $scope.projet.owner._id;
+        $scope.user_id = $window.sessionStorage.id;
       });
 
       SprintService.find($routeParams.id).success(function(data) {
@@ -186,6 +191,11 @@ appControllers.controller('MainCtrl', ['$scope','$location', '$window', '$routeP
       $window.location.href = options.site_url;
     };
 
+    $scope.user = {
+          nom: $window.sessionStorage.nom,
+          prenom: $window.sessionStorage.prenom
+        };
+
     $scope.get_id = function() {
       var reg = /[a-z0-9]{10,}/;
       var a = $location.path();
@@ -201,14 +211,10 @@ appControllers.controller('MainCtrl', ['$scope','$location', '$window', '$routeP
 
 appControllers.controller('TodoCtrl', ['$scope','$location', '$window', '$routeParams', 'SprintService', 'notify',
   function($scope,$location, $window, $routeParams, SprintService, notify) {
-    // $scope.list1 = $scope.rawScreens[0];
-    // $scope.list2 = $scope.rawScreens[1];
 
     $scope.tasks = [];
-
     $scope.projet_id = $routeParams.id;
     SprintService.user_tasks($routeParams.id).success(function(data) {
-      console.log(data);
       if (data.error) {
         angular.forEach(data.data, function(error) {
           notify({
@@ -241,5 +247,63 @@ appControllers.controller('TodoCtrl', ['$scope','$location', '$window', '$routeP
        }
      }
     };
+  }
+]);
+
+appControllers.controller('ChatCtrl', ['$scope','$location', '$window', '$routeParams', 'ChatService', 'ProjetService', 'notify',
+  function($scope,$location, $window, $routeParams, ChatService, ProjetService, notify) {
+    $scope.selectedUser = -1;
+    var socket = null;
+    $scope.users = [];
+    $scope.message = {}
+    $scope.messages = [];
+    $scope.projet_id = $routeParams.id;
+
+    ProjetService.findone($scope.projet_id).success(function(data) {
+      var token = $window.sessionStorage.token;
+      socket = io.connect(options.api_url, {query: 'token=' + token});
+      socket.on('news', function() {
+        $scope.selectUser();
+      });
+      if (!data.error) {
+        for (var i = 0; i < data.data.contributeurs.length; i++) {
+          var id = data.data.contributeurs[i]._id;
+          console.log(id);
+          if ($window.sessionStorage.id == id) {
+            data.data.contributeurs.splice(i, 1);
+          }
+        }
+        $scope.users = data.data.contributeurs;
+      }
+    });
+
+    $scope.selectUser = function(index) {
+      console.log(index);
+      if (typeof index != 'undefined') {
+        $scope.selectedUser = $scope.users[index];
+        $scope.message.to = $scope.users[index]._id;
+      }
+
+      ChatService.fetch($scope.message.to, $scope.projet_id).success(function(data) {
+        if (!data.error) {
+          $scope.messages = data.data;
+          setTimeout(function() {
+              $("#chat-box").animate({ scrollTop: $("#chat-inner").height() });
+          }, 0)
+        }
+      });
+    }
+
+    $scope.send = function() {
+      $scope.message.content = $scope.message.content.trim();
+      if ($scope.message.content.length == 0)
+        return;
+      ChatService.send($scope.message, $scope.projet_id).success(function(data) {
+        if (!data.error)  {
+          $scope.selectUser();
+        }
+        $scope.message.content = "";
+      });
+    }
   }
 ]);
