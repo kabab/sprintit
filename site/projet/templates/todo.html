@@ -20,7 +20,7 @@
                 <i class="fa fa-ellipsis-v"></i>
               </span>
               <span class="text">{{ task.titre }}</span>
-              <small class="label label-warning"><i class="fa fa-clock-o"></i> 1 day</small>
+              <small class="label" ng-class="{'label-danger': isDangerTodo(task), 'label-warning': !isDangerTodo(task)}"><i class="fa fa-clock-o"></i> {{task.date_debut | fromNow}}</small>
             </li>
           </ul>
         </div><!-- /.box-body -->
@@ -41,7 +41,8 @@
                 <i class="fa fa-ellipsis-v"></i>
               </span>
               <span class="text">{{ task.titre }}</span>
-              <small class="label label-warning"><i class="fa fa-clock-o"></i> {{i}} day</small>
+              <small class="label" ng-class="{'label-danger': isDangerDoing(task), 'label-warning': !isDangerDoing(task)}"><i class="fa fa-clock-o"></i> {{task.date_debut | addMoment:task.dure}}</small>
+
             </li>
           </ul>
         </div><!-- /.box-body -->
@@ -62,7 +63,6 @@
                 <i class="fa fa-ellipsis-v"></i>
               </span>
               <span class="text">{{ task.titre }}</span>
-              <small class="label label-warning"><i class="fa fa-clock-o"></i> {{i}} day</small>
             </li>
           </ul>
         </div><!-- /.box-body -->

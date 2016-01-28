@@ -97,3 +97,21 @@ appServices.factory('ChatService', function ($http,$q,$timeout) {
       }
     }
 });
+
+appServices.factory('IssueService', function ($http,$q,$timeout) {
+    return {
+      add : function(issue, project_id) {
+        return $http.post(options.api_url + '/issues/' + project_id, issue);
+      },
+      fetch : function (project_id, page) {
+        return $http.get (options.api_url + '/issues/' + project_id + '/' + page);
+      },
+      count: function(project_id) {
+        return $http.get (options.api_url + '/issues/' + project_id + '/count');
+      },
+      doit: function(issue_id) {
+        return $http.get (options.api_url + '/issues/' + issue_id + '/doit');
+      },
+
+    }
+});

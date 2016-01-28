@@ -4,6 +4,7 @@ appControllers.controller('RessourceCtrl', ['$scope','$location', '$window', 'Pr
     $scope.projet = {};
     $scope.projet_id = $routeParams.id;
 
+
     $scope.add_ressource = function() {
       ProjetService.add_ressource($scope.projet_id, $scope.email)
       .success(function(data) {
@@ -228,6 +229,13 @@ appControllers.controller('TodoCtrl', ['$scope','$location', '$window', '$routeP
       }
     });
 
+    $scope.isDangerDoing = function(task) {
+      return ! moment(task.date_debut).add(task.dure, 'days').isAfter();
+    }
+
+    $scope.isDangerTodo = function(task) {
+      return ! moment(task.date_debut).isAfter();
+    }
 
     $scope.sortableOptions = {
      placeholder: "app",
@@ -242,7 +250,19 @@ appControllers.controller('TodoCtrl', ['$scope','$location', '$window', '$routeP
          if (order[source_id] > order[target_id] ) {
            return false;
          } else {
-           SprintService.task_state(task_id, target_id);
+           SprintService.task_state(task_id, target_id).success(function(data) {
+             if (data.error) {
+               $(ui.item[0]).remove();
+               $("#todo").append(ui.item[0]);
+               angular.forEach(data.data, function(error) {
+                 notify({
+                   message: error,
+                   classes: 'alert-danger',
+                   duration: 2000,
+                 });
+               });
+             }
+           });
          }
        }
      }
@@ -305,5 +325,77 @@ appControllers.controller('ChatCtrl', ['$scope','$location', '$window', '$routeP
         $scope.message.content = "";
       });
     }
+  }
+]);
+
+
+appControllers.controller('IssueCtrl', ['$scope', '$location', '$window', '$routeParams', 'IssueService', 'notify', 'NgTableParams',
+  function($scope, $location, $window, $routeParams, IssueService, notify, NgTableParams) {
+    $scope.projet_id = $routeParams.id;
+    console.log($routeParams.id);
+
+    $scope.page = 0;
+    if ($routeParams.page) {
+      $scope.page = $routeParams.page;
+    }
+
+    $scope.config = {
+      itemsPerPage: 5,
+      fillLastPage: true
+    }
+
+    var data = [];
+
+    $scope.count = 0;
+    $scope.pages = [];
+
+    $scope.nissue = {};
+    $scope.add = function() {
+      IssueService.add($scope.nissue, $scope.projet_id).success(function(data) {
+        if (data.error) {
+          angular.forEach(data.data, function(error) {
+            notify({
+              message: error,
+              classes: 'alert-danger',
+              duration: 2000,
+            });
+          });
+        } else {
+          $("#myModal").modal('hide');
+        }
+      });
+    }
+
+    $scope.doit = function(issue_id) {
+      IssueService.doit(issue_id).success(function(data) {
+        if (data.error) {
+          angular.forEach(data.data, function(error) {
+            notify({
+              message: error,
+              classes: 'alert-danger',
+              duration: 2000,
+            });
+          });
+        } else {
+          $window.location.reload();
+        }
+      });
+    }
+
+    IssueService.fetch($scope.projet_id, $scope.page).success(function(d) {
+      if (data.error) {
+        angular.forEach(d.data, function(error) {
+          notify({
+            message: error,
+            classes: 'alert-danger',
+            duration: 2000,
+          });
+        });
+      } else {
+        data = d.data;
+        $scope.tableParams = new NgTableParams({ count: 5 }, { dataset: data});
+        console.log(data);
+      }
+    });
   }
 ]);

@@ -22,6 +22,7 @@ routes.projets = require('./routes/projets');
 routes.sprints = require('./routes/sprints');
 routes.taches = require('./routes/taches');
 routes.messages = require('./routes/messages');
+routes.issues = require('./routes/issues');
 
 app.use( function(req, res, next) {
   res.set('Access-Control-Allow-Origin', 'http://localhost');
@@ -37,6 +38,7 @@ app.use('/projets', routes.projets);
 app.use('/sprints', routes.sprints);
 app.use('/taches', routes.taches);
 app.use('/messages', routes.messages);
+app.use('/issues', routes.issues);
 
 
 console.log('API start on %d', config.api_port);

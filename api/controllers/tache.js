@@ -98,13 +98,26 @@ module.exports.change_state = function(req, res) {
         var task = sprints[0].taches.id(task_id);
         var order = {todo: 0, doing: 1, done: 2};
         var source = sprints[0].taches.id(task_id).etat;
-        if (order[state] > order[source] ) {
+
+        if (state == 'doing') {
+          for (var i = 0; i < sprints[0].taches.length; i++) {
+            var tache = sprints[0].taches[i];
+            if (tache.assignee == req.user.id &&
+                tache.etat == 'doing') {
+              ans.error = true;
+              console.log('Already had some doing stuff');
+              ans.data = ['Impossible opertation'];
+            }
+          }
+        }
+
+        if (order[state] > order[source] && !ans.error ) {
           sprints[0].taches.id(task_id).etat = state;
           sprints[0].save();
+          ans.data = sprint.taches;
+        } else {
           ans.error = true;
           ans.data = ['Impossible opertation'];
-        } else {
-          ans.data = sprint.taches;
         }
       } else {
         ans.error = true;
