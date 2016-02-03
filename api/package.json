@@ -14,9 +14,11 @@
     "express-jwt": "*",
     "frisby": "*",
     "jsonwebtoken": "*",
+    "jwt-decode": "^1.5.0",
     "moment": "^2.11.0",
     "mongoose": "*",
     "morgan": "~1.5.1",
-    "serve-favicon": "~2.2.0"
+    "serve-favicon": "~2.2.0",
+    "socket.io": "*"
   }
 }

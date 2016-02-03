@@ -32,7 +32,8 @@
     <link rel="stylesheet" href="../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
     <link rel="stylesheet" href="../css/style.css" media="screen" title="no title" charset="utf-8">
     <link rel="stylesheet" href="css/style.css" media="screen" title="no title" charset="utf-8">
-
+    <link rel="stylesheet" href="css/ng-table.min.css">
+    <script src="js/moment.min.js" charset="utf-8"></script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -67,7 +68,7 @@
                 <!-- Menu toggle button -->
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <i class="fa fa-envelope-o"></i>
-                  <span class="label label-success">1</span>
+                  <span class="label label-success">{{ msg_count }}</span>
                 </a>
                 <ul class="dropdown-menu">
                   <li class="header">You have 1 messages</li>
@@ -129,13 +130,13 @@
                 <!-- Menu Toggle Button -->
                 <a class="dropdown-toggle" data-toggle="dropdown">
                   <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                  <span class="hidden-xs">Amine KABAB</span>
+                  <span class="hidden-xs">{{user.nom}} {{user.prenom}}</span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- The user image in the menu -->
                   <li >
                     <h3 style="text-align: center">
-                      Amine KABAB - Admin
+                      {{user.nom}} {{user.prenom}}
                     </h3>
                   </li>
                   <!-- Menu Footer-->
@@ -254,18 +255,21 @@
     <!-- FastClick -->
     <script src="../plugins/fastclick/fastclick.min.js"></script>
     <script src="../plugins/angular-notify/angular-notify.min.js"></script>
+    <script src="js/angular-table.min.js"></script>
+    <script src="js/ng-table.min.js"></script>
 
     <!-- AdminLTE App -->
     <script src="../dist/js/app.min.js"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="../dist/js/pages/dashboard.js"></script>
+
     <!-- AdminLTE for demo purposes -->
     <script src="../dist/js/demo.js"></script>
+    <script src="http://localhost:3001/socket.io/socket.io.js" charset="utf-8"></script>
     <script src="js/app.js"></script>
     <script src="js/services.js" charset="utf-8"></script>
     <script src="js/controllers.js"></script>
     <script src="js/jquery.fn.gantt.js"></script>
     <script type="text/javascript" src="js/sortable.js"></script>
-
   </body>
 </html>

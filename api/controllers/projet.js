@@ -55,7 +55,7 @@ module.exports.findone = function(req, res) {
   ans.error = false;
   var id = req.params.id;
   Projet.findOne({_id:id, contributeurs: req.user.id})
-    .populate('contributeurs').exec( function(err, projets) {
+    .populate('contributeurs owner').exec( function(err, projets) {
     if (projets) {
       ans.data = projets;
     } else {
@@ -110,7 +110,7 @@ module.exports.delete_ressource = function(req, res) {
   var u_id= req.params.id2;
 
   Projet.findOne({_id:id, owner: req.user.id}, function(err, projet) {
-    if (projet) {
+    if (projet && projet.owner != u_id) {
       projet.contributeurs.pull(u_id);
       projet.save(function(err, projet) {
         ans.data = projet;

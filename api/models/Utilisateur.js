@@ -32,6 +32,10 @@ UtilisateurSchema.pre('save', function(next) {
   });
 });
 
+UtilisateurSchema.virtual('nom_complet').get(function () {
+  return this.nom + ' ' + this.prenom;
+});
+
 //Password verification
 UtilisateurSchema.methods.comparePassword = function(password, cb) {
     bcrypt.compare(password, this.password, function(err, isMatch) {

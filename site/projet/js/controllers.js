@@ -4,6 +4,7 @@ appControllers.controller('RessourceCtrl', ['$scope','$location', '$window', 'Pr
     $scope.projet = {};
     $scope.projet_id = $routeParams.id;
 
+
     $scope.add_ressource = function() {
       ProjetService.add_ressource($scope.projet_id, $scope.email)
       .success(function(data) {
@@ -40,7 +41,10 @@ appControllers.controller('RessourceCtrl', ['$scope','$location', '$window', 'Pr
     }
 
     ProjetService.findone($scope.projet_id).success(function(data) {
+      var id = $window.sessionStorage.id;
       $scope.projet = data.data;
+      $scope.owner = $scope.projet.owner._id;
+      $scope.user_id = $window.sessionStorage.id;
     });
   }
 ]);
@@ -58,6 +62,8 @@ appControllers.controller('SprintCtrl', ['$scope','$location', '$window', 'Sprin
 
       ProjetService.findone($scope.projet_id).success(function(data) {
         $scope.projet = data.data;
+        $scope.owner = $scope.projet.owner._id;
+        $scope.user_id = $window.sessionStorage.id;
       });
 
       SprintService.find($routeParams.id).success(function(data) {
@@ -178,8 +184,8 @@ appControllers.controller('SprintCtrl', ['$scope','$location', '$window', 'Sprin
   ]
 );
 
-appControllers.controller('PostItCtrl', ['$scope','$location', '$window', 'PostItService', '$routeParams', '$route', 'ProjetService',
-    function ($scope, $location, $window, PostItService, $routeParams, $route, ProjetService) {
+appControllers.controller('PostItCtrl', ['$scope','$location', '$window', 'PostItService', '$routeParams', '$route', 'ProjetService', 'notify',
+    function ($scope, $location, $window, PostItService, $routeParams, $route, ProjetService, notify) {
       $scope.postits = {};
       $scope.postit = {};
 
@@ -193,7 +199,6 @@ appControllers.controller('PostItCtrl', ['$scope','$location', '$window', 'PostI
       PostItService.find($routeParams.id).success(function(data) {
         $scope.postits = data.data;
         var l = $scope.postits.length;
-        $scope.select_postit(l - 1);
       });
 
       $scope.add_postit = function() {
@@ -201,8 +206,6 @@ appControllers.controller('PostItCtrl', ['$scope','$location', '$window', 'PostI
           if (!data.error) {
             $scope.postits.push(data.data);
             var l = $scope.postits.length;
-            $scope.select_postit(l - 1);
-            $("#myModalPost").modal('hide');
           } else {
             angular.forEach(data.data, function(error) {
               notify({
@@ -243,19 +246,32 @@ appControllers.controller('PostItCtrl', ['$scope','$location', '$window', 'PostI
   ]
 );
 
-appControllers.controller('MainCtrl', ['$scope','$location', '$window', '$routeParams', 'MenuService', 'MenuService',
-  function($scope,$location, $window, $routeParams, MenuService) {
+appControllers.controller('MainCtrl', ['$scope','$location', '$window', '$routeParams', 'MenuService', 'ChatService', '$timeout',
+  function($scope,$location, $window, $routeParams, MenuService, ChatService, $timeout) {
     $scope.logout = function() {
       if ($window.sessionStorage.token)
         delete $window.sessionStorage.token;
       $window.location.href = options.site_url;
     };
 
+    $scope.user = {
+          nom: $window.sessionStorage.nom,
+          prenom: $window.sessionStorage.prenom
+        };
+
+
     $scope.get_id = function() {
       var reg = /[a-z0-9]{10,}/;
       var a = $location.path();
       return a.match(reg).length > 0 ? a.match(reg)[0]:"..";
     }
+
+    $timeout(function() {
+      ChatService.count($scope.get_id()).success(function(c) {
+        $scope.msg_count = c.data;
+      });
+    }, );
+
 
     $scope.setElement = MenuService.setElement;
     $scope.getElement = MenuService.getElement;
@@ -266,14 +282,10 @@ appControllers.controller('MainCtrl', ['$scope','$location', '$window', '$routeP
 
 appControllers.controller('TodoCtrl', ['$scope','$location', '$window', '$routeParams', 'SprintService', 'notify',
   function($scope,$location, $window, $routeParams, SprintService, notify) {
-    // $scope.list1 = $scope.rawScreens[0];
-    // $scope.list2 = $scope.rawScreens[1];
 
     $scope.tasks = [];
-
     $scope.projet_id = $routeParams.id;
     SprintService.user_tasks($routeParams.id).success(function(data) {
-      console.log(data);
       if (data.error) {
         angular.forEach(data.data, function(error) {
           notify({
@@ -287,6 +299,13 @@ appControllers.controller('TodoCtrl', ['$scope','$location', '$window', '$routeP
       }
     });
 
+    $scope.isDangerDoing = function(task) {
+      return ! moment(task.date_debut).add(task.dure, 'days').isAfter();
+    }
+
+    $scope.isDangerTodo = function(task) {
+      return ! moment(task.date_debut).isAfter();
+    }
 
     $scope.sortableOptions = {
      placeholder: "app",
@@ -301,10 +320,152 @@ appControllers.controller('TodoCtrl', ['$scope','$location', '$window', '$routeP
          if (order[source_id] > order[target_id] ) {
            return false;
          } else {
-           SprintService.task_state(task_id, target_id);
+           SprintService.task_state(task_id, target_id).success(function(data) {
+             if (data.error) {
+               $(ui.item[0]).remove();
+               $("#todo").append(ui.item[0]);
+               angular.forEach(data.data, function(error) {
+                 notify({
+                   message: error,
+                   classes: 'alert-danger',
+                   duration: 2000,
+                 });
+               });
+             }
+           });
          }
        }
      }
     };
+  }
+]);
+
+appControllers.controller('ChatCtrl', ['$scope','$location', '$window', '$routeParams', 'ChatService', 'ProjetService', 'notify',
+  function($scope,$location, $window, $routeParams, ChatService, ProjetService, notify) {
+    $scope.selectedUser = -1;
+    var socket = null;
+    $scope.users = [];
+    $scope.message = {}
+    $scope.messages = [];
+    $scope.projet_id = $routeParams.id;
+
+    ProjetService.findone($scope.projet_id).success(function(data) {
+      var token = $window.sessionStorage.token;
+      socket = io.connect(options.api_url, {query: 'token=' + token});
+      socket.on('news', function() {
+        $scope.selectUser();
+      });
+      if (!data.error) {
+        for (var i = 0; i < data.data.contributeurs.length; i++) {
+          var id = data.data.contributeurs[i]._id;
+          console.log(id);
+          if ($window.sessionStorage.id == id) {
+            data.data.contributeurs.splice(i, 1);
+          }
+        }
+        $scope.users = data.data.contributeurs;
+      }
+    });
+
+    $scope.selectUser = function(index) {
+      console.log(index);
+      if (typeof index != 'undefined') {
+        $scope.selectedUser = $scope.users[index];
+        $scope.message.to = $scope.users[index]._id;
+      }
+
+      ChatService.fetch($scope.message.to, $scope.projet_id).success(function(data) {
+        if (!data.error) {
+          $scope.messages = data.data;
+          setTimeout(function() {
+              $("#chat-box").animate({ scrollTop: $("#chat-inner").height() });
+          }, 0)
+        }
+      });
+    }
+
+    $scope.send = function() {
+      $scope.message.content = $scope.message.content.trim();
+      if ($scope.message.content.length == 0)
+        return;
+      ChatService.send($scope.message, $scope.projet_id).success(function(data) {
+        if (!data.error)  {
+          $scope.selectUser();
+        }
+        $scope.message.content = "";
+      });
+    }
+  }
+]);
+
+
+appControllers.controller('IssueCtrl', ['$scope', '$location', '$window', '$routeParams', 'IssueService', 'notify', 'NgTableParams',
+  function($scope, $location, $window, $routeParams, IssueService, notify, NgTableParams) {
+    $scope.projet_id = $routeParams.id;
+    console.log($routeParams.id);
+
+    $scope.page = 0;
+    if ($routeParams.page) {
+      $scope.page = $routeParams.page;
+    }
+
+    $scope.config = {
+      itemsPerPage: 5,
+      fillLastPage: true
+    }
+
+    var data = [];
+
+    $scope.count = 0;
+    $scope.pages = [];
+
+    $scope.nissue = {};
+    $scope.add = function() {
+      IssueService.add($scope.nissue, $scope.projet_id).success(function(data) {
+        if (data.error) {
+          angular.forEach(data.data, function(error) {
+            notify({
+              message: error,
+              classes: 'alert-danger',
+              duration: 2000,
+            });
+          });
+        } else {
+          $("#myModal").modal('hide');
+        }
+      });
+    }
+
+    $scope.doit = function(issue_id) {
+      IssueService.doit(issue_id).success(function(data) {
+        if (data.error) {
+          angular.forEach(data.data, function(error) {
+            notify({
+              message: error,
+              classes: 'alert-danger',
+              duration: 2000,
+            });
+          });
+        } else {
+          $window.location.reload();
+        }
+      });
+    }
+
+    IssueService.fetch($scope.projet_id, $scope.page).success(function(d) {
+      if (data.error) {
+        angular.forEach(d.data, function(error) {
+          notify({
+            message: error,
+            classes: 'alert-danger',
+            duration: 2000,
+          });
+        });
+      } else {
+        data = d.data;
+        $scope.tableParams = new NgTableParams({ count: 5 }, { dataset: data});
+        console.log(data);
+      }
+    });
   }
 ]);

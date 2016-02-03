@@ -56,7 +56,10 @@ module.exports.login = function(req, res) {
       { expiresInMinutes: config.token_expiration });
       ans.data = {};
       ans.data.token = token;
-
+      ans.data.id = user._id;
+      ans.data.nom = user.nom;
+      ans.data.prenom = user.prenom;
+      console.log(ans);
       return res.json(ans);
     });
   });

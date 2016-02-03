@@ -1,0 +1,97 @@
+<section class="content-header">
+  <h1>
+    Issues
+   <small><button class="btn" name="button" data-toggle="modal" data-target="#myModal">New issue</button></small>
+  </h1>
+</section>
+
+<!-- Main content -->
+<section class="content" id="issues">
+  <div class="row">
+
+    <div class="col-md-12">
+      <div class="box">
+        <div class="box-header">
+          <div class="pull-right">
+            <input type="checkbox" ng-model="assigned" class="flat-red" value="">
+            <label for="">Not assigned</label>
+          </div>
+        </div>
+        <div class="box-body">
+          <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap"><div class="row"><div class="col-sm-6"></div><div class="col-sm-6"></div></div><div class="row"><div class="col-sm-12">
+            <table ng-table="tableParams" id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
+
+              <tr role="row" class="odd" ng-repeat="issue in $data" ng-hide="issue.assignee && assigned">
+                <td title="'titre'" sortable="'titre'">
+                  {{issue.titre}}
+                </td>
+                <td title="'Created at'" sortable="'date_creation'">
+                  {{issue.date_creation | fromNow}}
+                </td>
+                <td title="'State'" sortable="'etat'">
+                  {{ issue.etat }}
+                </td>
+                <td title="'Priority'" sortable="'priorite'">
+                  <span class="label"
+                    ng-class="{'label-warning': issue.priorite == 'medium', 'label-primary': issue.priorite == 'low', 'label-danger': issue.priorite == 'high'}">
+                    {{ issue.priorite }}
+                </span>
+
+                </td>
+
+                <td title="'Created by'" sortable="'etat'">
+                  {{ issue.createdBy.nom | uppercase}} {{ issue.createdBy.prenom }}
+                </td>
+                <td title="'Assigned to'">
+                  {{ issue.assignee.nom | uppercase}} {{ issue.assignee.prenom }}
+                  <button class="btn btn-success" ng-hide="issue.assignee" ng-click="doit(issue._id)">Do it</button>
+                </td>
+              </tr>
+          </table></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<div class="example-modal">
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+          <h4 class="modal-title">New issue</h4>
+        </div>
+        <div class="modal-body">
+            <!-- form start -->
+          <form role="form">
+            <div class="box-body">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Title</label>
+                <input type="text" ng-model="nissue.titre" class="form-control" id="exampleInputEmail1">
+              <div class="form-group">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Priotiry</label>
+                <select min="3" ng-model="nissue.priorite" class="form-control" id="exampleInputEmail1">
+                    <option ng-repeat="p in ['low', 'medium', 'high']" value="{{p}}">{{p}}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Description</label>
+                <textarea class="form-control" ng-model="ntache.description" rows="3" placeholder="Enter ..."></textarea>
+              </div>
+            </div><!-- /.box-body -->
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" ng-click="add()">Save changes</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+</div>

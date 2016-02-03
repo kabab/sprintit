@@ -25,6 +25,9 @@ appControllers.controller('LoginCtrl', ['$scope','$location','$window', 'UserSer
           if (!data.error) {
             AuthenticationService.isAuthenticated = true;
             $window.sessionStorage.token = data.data.token;
+            $window.sessionStorage.id = data.data.id;
+            $window.sessionStorage.nom = data.data.nom;
+            $window.sessionStorage.prenom = data.data.prenom;
             $window.location.href = options.site_url + '/dashboard/';
           } else {
              angular.forEach(data.data, function(e) {
